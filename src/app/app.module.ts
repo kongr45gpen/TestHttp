@@ -10,6 +10,10 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { HTTP } from '@ionic-native/http/ngx';
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { Zip } from '@ionic-native/zip/ngx';
+
+import * as BrowserFS from "browserfs";
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,8 +23,21 @@ import { HTTP } from '@ionic-native/http/ngx';
     StatusBar,
     SplashScreen,
     HTTP,
+    FileChooser,
+    Zip,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    BrowserFS.configure({
+      fs: "InMemory",
+      options: {}
+    }, function(error) { console.error(error) });
+
+    // @ts-ignore
+    var fs = require('fs');
+    fs.writeFile('/test.txt', 'Cool, I can do this in the browser!');
+  }
+}

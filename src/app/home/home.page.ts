@@ -7,7 +7,7 @@ import ModelHandler from "docx4js";
 import mammoth from "mammoth/mammoth.browser";
 import ODTDocument from "./ODTDocument.js";
 
-import * as BrowserFS from "browserfs";
+import * as fs from 'fs';
 import WordExtractor from "word-extractor";
 
 @Component({
@@ -17,29 +17,16 @@ import WordExtractor from "word-extractor";
 })
 export class HomePage {
 
-  constructor(private zip: Zip) { }
+  constructor(private zip: Zip) {}
 
   ionViewWillEnter() {
 
     console.log("hello")
-    console.log(BrowserFS);
+    console.log(WordExtractor);
 
-    BrowserFS.install(window);
-    BrowserFS.configure({
-      fs: "InMemory",
-      options: {}
-    }, function(error) { console.error(error) });
-
-    // @ts-ignore
-    require = BrowserFS.BFSRequire;
-    var fs = require('fs');
-    fs.writeFile('/test.txt', 'Cool, I can do this in the browser!');
-
-    console.log(fs.readFile('/test.txt', function(err, contents) {
+    fs.readFile('/test.txt', function(err, contents) {
       console.log(contents.toString());
-    }));
-
-    // WordExtractor...
+    });
 
 }
 }
